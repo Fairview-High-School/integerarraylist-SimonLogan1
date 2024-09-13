@@ -11,7 +11,7 @@ public class IntegerArrayList implements IntegerList{
         data = new Integer[10];
     }
 
-    public void add(Integer val)
+    private void resizeInternalArrayIfNeccesary()
     {
         if(size >= data.length)
         {
@@ -22,22 +22,39 @@ public class IntegerArrayList implements IntegerList{
                 data = biggerArray;
             }
         }
-        
+    }
+
+    public void add(Integer val)
+    {
+        resizeInternalArrayIfNeccesary();
         data[size] = val;
         size++;
         
     }
     public void add(int index, Integer val)
     {
-
+        resizeInternalArrayIfNeccesary();
+        for(int i = size; i > index; i--)
+        {
+            data[i] = data[i-1];
+        }
+        data[index] = val;
+        size++;
     }
     public void set(int index, Integer val)
     {
-
+        if(index <= size-1 && index >0)
+        {
+            data[index] = val;
+        }
+        else
+        throw new IndexOutOfBoundsException("index: " + index);
     }
     public void clear()
     {
-
+        size = 0;
+        Integer[] a = new Integer[0];
+        data = a;
     }
     public Integer remove(int index)
     {
@@ -53,11 +70,16 @@ public class IntegerArrayList implements IntegerList{
     }
     public int size()
     {
-        return -1;
+        return size;
     }
     public boolean isEmpty()
     {
-        return false;
+        if(size==0)
+        {
+            return true;
+        }
+        else
+        return false; 
     }
     public boolean contains(Integer val)
     {
