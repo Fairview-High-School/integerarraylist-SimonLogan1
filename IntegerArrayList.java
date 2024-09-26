@@ -19,8 +19,9 @@ public class IntegerArrayList implements IntegerList{
             for(int i = 0; i < data.length; i++)
             {
                 biggerArray[i] = data[i];
-                data = biggerArray;
+                
             }
+            data = biggerArray;
         }
     }
 
@@ -34,6 +35,7 @@ public class IntegerArrayList implements IntegerList{
     public void add(int index, Integer val)
     {
         resizeInternalArrayIfNeccesary();
+
         for(int i = size; i > index; i--)
         {
             data[i] = data[i-1];
@@ -58,7 +60,25 @@ public class IntegerArrayList implements IntegerList{
     }
     public Integer remove(int index)
     {
-        throw new UnsupportedOperationException();
+        Integer removed = data[index];
+        if(index < 0 || index >= size)
+        {
+            throw new IndexOutOfBoundsException("index: " + index);
+        }
+        
+        Integer[] temp = new Integer[data.length-1];
+        for(int i = size; i >= index; i--)
+        {
+            temp[i] = data[i+1];
+        }
+        for(int i = 0; i < index; i++)
+        {
+            temp[i] = data[i];
+        }
+        data = temp;
+        size--;
+        return removed;
+        
     }
     public Integer get(int index)
     {
@@ -83,15 +103,56 @@ public class IntegerArrayList implements IntegerList{
     }
     public boolean contains(Integer val)
     {
-        throw new UnsupportedOperationException();
+        boolean isTrue = false;
+        for(int i = 0; i < size; i++)
+        {
+        
+            if(data[i] == val)
+            {
+                isTrue = true;
+            }
+        }
+        return isTrue;
     }
     public int indexOf(Integer val)
     {
-        throw new UnsupportedOperationException();
+        int index = -1;
+        for(int i = 0; i < size; i++)
+        {
+        
+            if(data[i] == val)
+            {
+                index = i;
+                break;
+            }
+        }
+        return index;
+        
     }
     public boolean equals(List<Integer> other)
     {
-        throw new UnsupportedOperationException();
+        boolean list = false;
+        if(data.length != other.size())
+        {
+            list= false;
+        
+        }
+        else{
+        for(int i = 0; i < size; i++)
+        {
+        
+            if(data[i] == other.get(i))
+            {
+                list = true;
+            }
+            else
+            {
+                list = false;
+                break;
+            }
+        }
+    }
+        return list;
     }
 
     public String toString()
